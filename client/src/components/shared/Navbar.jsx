@@ -20,6 +20,10 @@ const Navbar = () => {
         {
             path: "/result",
             pathName: "Result"
+        },
+        {
+            path : "/dashboard",
+            pathName  : "Dashboard"
         }
     ]
     return (
@@ -55,12 +59,12 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <button className="btn btn-outline cursor-pointer">
+                <button className=" cursor-pointer">
                     <SignedOut>
                         <SignInButton />
                     </SignedOut>
                     <SignedIn>
-                        <UserButton />
+                        <UserButton /> 
                     </SignedIn>
                 </button>
             </div>
