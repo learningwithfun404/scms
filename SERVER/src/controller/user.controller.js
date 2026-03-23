@@ -1,6 +1,6 @@
 const { Webhook } = require("svix");
 const UserModel = require("../models/user.model");
-
+const { getAuth } = require("@clerk/express");
 const handleUserCreated = async (
   clerkId,
   emailAddresses,
@@ -156,6 +156,41 @@ const clerkWebhookHandler = async (req, res) => {
   }
 };
 
+const getLoggedInUser = async (req, res) => {
+  try {
+    const { userId } = getAuth(req);
+    if (!userId) {
+      return res.status(401).json({
+        statusCode: 401,
+        message: "Unauthorized",
+      });
+    }
+
+    const user = await UserModel.findOne({ clerkId: userId });
+
+    if (!user) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User retrieved successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+      error,
+    });
+  }
+};
+
 module.exports = {
   clerkWebhookHandler,
+  getLoggedInUser,
 };
