@@ -10,6 +10,8 @@ import Notice from "../components/dashboard/notice/Notice";
 import UpdateNotice from "../components/dashboard/notice/UpdateNotice";
 import AddNotice from "../components/dashboard/notice/AddNotice";
 import PrivetRouter from "../components/shared/PrivetRouter";
+import AddCourse from "../components/dashboard/course/AddCourse";
+import ManageCourse from "../components/dashboard/course/ManageCourse";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +50,14 @@ export const router = createBrowserRouter([
           {
             path: "notice-update/:id",
             element: <UpdateNotice />,
+          },
+          {
+            path: "add-course",
+            element: <AddCourse />,
+          },
+          {
+            path: "course",
+            element: <ManageCourse />,
           },
           {
             path: "settings",

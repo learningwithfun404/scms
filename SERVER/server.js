@@ -5,6 +5,7 @@ const { clerkMiddleware } = require("@clerk/express");
 const userRouter = require("./src/routes/User.router");
 const noticeRouter = require("./src/routes/notice.router");
 const cors = require("cors");
+const courseRouter = require("./src/routes/course.router");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -35,6 +36,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", userRouter);
 
 app.use("/api/v1/notice", noticeRouter);
+
+app.use("/api/v1/course", courseRouter);
 
 app.listen(PORT, async () => {
   try {
