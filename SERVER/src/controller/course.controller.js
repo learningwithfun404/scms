@@ -26,7 +26,15 @@ const createNewCourse = async (req, res) => {
 
 const getAllCourse = async (req, res) => {
   try {
-    const courses = await Course.find();
+    const { search } = req.query;
+
+    let filter = {};
+
+    if (search) {
+      filter.title = { $regex: search, $options: "i" };
+    }
+
+    const courses = await Course.find(filter);
 
     if (!courses || courses.length === 0) {
       res.status(404).json({

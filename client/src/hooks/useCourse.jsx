@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "./useAxios";
 
-const useCourse = () => {
+const useCourse = (searchText) => {
   const { axiosSecure } = useAxios();
 
   const {
@@ -10,9 +10,11 @@ const useCourse = () => {
     isLoading,
     refetch: courseRefetch,
   } = useQuery({
-    queryKey: ["course"],
+    queryKey: ["course", searchText],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/course/find");
+      const { data } = await axiosSecure.get(
+        `/course/find?search=${searchText}`,
+      );
       return data;
     },
   });

@@ -7,7 +7,9 @@ import { Link } from "react-router";
 import useCourse from "../../../hooks/useCourse";
 
 const Notice = () => {
-  const { allCourse, courseRefetch } = useCourse();
+  const [searchText, setSearchText] = React.useState("");
+  const [searchValue, setSearchValue] = React.useState("");
+  const { allCourse, courseRefetch } = useCourse(searchValue);
   const { axiosSecure } = useAxios();
   const courses = allCourse?.data;
   const handleDeleteCourse = async (id) => {
@@ -15,6 +17,12 @@ const Notice = () => {
     console.log(res);
     courseRefetch();
     toast.success("Course Deleted Successfully");
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchValue(searchText);
+    setSearchText("");
   };
 
   return (
@@ -29,6 +37,15 @@ const Notice = () => {
         </Link>
       </div>
       {/* all course table */}
+      <form className="mb-5" onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search courses..."
+          className="input input-bordered w-full max-w-xs"
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <button className="btn btn-primary ml-3">Search</button>
+      </form>
       <div>
         <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 w-5xl">
           <table className="table">
