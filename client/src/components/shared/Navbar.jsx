@@ -13,6 +13,10 @@ const navitems = [
     pathName: "Home",
   },
   {
+    path: "courses",
+    pathName: "Courses",
+  },
+  {
     path: "/about",
     pathName: "About",
   },
@@ -25,10 +29,14 @@ const navitems = [
     pathName: "Result",
   },
   {
+    path: "/profile",
+    pathName: "Profile",
+  },
+  {
     path: "/dashboard",
     pathName: "Dashboard",
   },
-];  
+];
 
 const Navbar = () => {
   const { user } = useLoggedInUser();
