@@ -1,6 +1,5 @@
 const express = require("express");
 require("dotenv").config();
-const dbConnection = require("./config/db");
 const { clerkMiddleware } = require("@clerk/express");
 const userRouter = require("./routes/User.router");
 const noticeRouter = require("./routes/notice.router");
@@ -8,13 +7,12 @@ const cors = require("cors");
 const courseRouter = require("./routes/course.router");
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://scms-client-gamma.vercel.app"],
     credentials: false,
   }),
 );
@@ -39,15 +37,21 @@ app.use("/api/v1/notice", noticeRouter);
 
 app.use("/api/v1/course", courseRouter);
 
-app.listen(PORT, async () => {
-  try {
-    await dbConnection();
-    console.log(`Server is running at http://localhost:${PORT}`);
-  } catch (error) {
-    console.log(
-      "Failed to start the server due to a DB connection error",
-      error,
-    );
-    process.exit(1);
-  }
+// not found route handler
+
+app.use((req, res, next) => {
+  res.status(404).json({
+    statusCode: 404,
+    message: "Route not found",
+  });
 });
+
+app.use((err, req, res, next) => {
+  return res.status(500).json({
+    statusCode: 500,
+    message: "Internal server error",
+    error: err.message,
+  });
+});
+
+module.exports = app;

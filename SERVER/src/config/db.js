@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  throw new Error(
+    "Database URL (MONGO_URI) is not defined in the environment variables",
+  );
+}
 
 const dbConnection = async () => {
-  const MONGO_URI = process.env.MONGO_URI;
-
-  if (!MONGO_URI) {
-    throw new Error(
-      "Database URL (MONGO_URI) is not defined in the environment variables",
-    );
-  }
   try {
     await mongoose.connect(MONGO_URI);
     console.log("Database is connected successfully");

@@ -1,11 +1,11 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
+    "dev": "nodemon index.js",
     "build": "echo 'Building...'",
-    "start": "node src/server.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
