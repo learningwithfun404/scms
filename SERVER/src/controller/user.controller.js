@@ -1,6 +1,7 @@
 const { Webhook } = require("svix");
 const UserModel = require("../models/user.model");
 const { getAuth } = require("@clerk/express");
+const User = require("../models/user.model");
 const handleUserCreated = async (
   clerkId,
   emailAddresses,
@@ -190,7 +191,69 @@ const getLoggedInUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    if (!users || users.length === 0) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "No users found",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Users retrieved successfully",
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+      error,
+    });
+  }
+};
+
+const updateUserRole = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log(userId);
+    const { role } = req.body;
+
+    if (!["user", "admin"].includes(role)) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Invalid role specified",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(userId, { role }, { new: true });
+
+    if (!user) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User role updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+      error,
+    });
+  }
+};
+
 module.exports = {
   clerkWebhookHandler,
   getLoggedInUser,
+  getAllUsers,
+  updateUserRole,
 };

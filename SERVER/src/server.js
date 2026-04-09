@@ -1,11 +1,11 @@
 const express = require("express");
 require("dotenv").config();
-const dbConnection = require("./src/config/db");
+const dbConnection = require("./config/db");
 const { clerkMiddleware } = require("@clerk/express");
-const userRouter = require("./src/routes/User.router");
-const noticeRouter = require("./src/routes/notice.router");
+const userRouter = require("./routes/User.router");
+const noticeRouter = require("./routes/notice.router");
 const cors = require("cors");
-const courseRouter = require("./src/routes/course.router");
+const courseRouter = require("./routes/course.router");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
